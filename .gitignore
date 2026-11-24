@@ -1,0 +1,20 @@
+# Dependencies & builds
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Secrets — never commit real env files
+.env
+.env.*
+!.env.example
+
+# Uploaded files (patients' prescriptions etc.)
+backend/storage/
+
+# Logs & OS / editor files
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

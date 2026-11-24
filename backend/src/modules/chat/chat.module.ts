@@ -1,0 +1,12 @@
+import { Global, Module } from '@nestjs/common';
+import { ChatController } from './chat.controller';
+import { ChatGateway } from './chat.gateway';
+import { ChatService } from './chat.service';
+
+@Global()
+@Module({
+  providers: [ChatService, ChatGateway],
+  controllers: [ChatController],
+  exports: [ChatService],
+})
+export class ChatModule {}

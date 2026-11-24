@@ -2,8 +2,8 @@
 # Creates: PostgreSQL database, the API (Docker, includes Chromium for Arabic PDFs), and the web app (static site).
 #
 # The web app proxies /api/* to the API, so the refresh-token cookie stays first-party
-# (onrender.com sub-domains count as different sites). If Render gives the API a different
-# URL than https://medix-api.onrender.com, update the rewrite below, VITE_SOCKET_URL and BACKEND_URL.
+# (onrender.com sub-domains count as different sites). The API and web URLs below must match
+# the ones Render assigned (rewrite, VITE_SOCKET_URL, BACKEND_URL, FRONTEND_URL).
 
 databases:
   - name: medix-db
@@ -22,7 +22,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     # Run migrations + idempotent reference seed (roles, admin, plans, locations, medicines), then start.
-    dockerCommand: sh -c "npm run migration:run:prod && npm run seed:prod && node dist/main.js"
+    dockerCommand: npm run start:render
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -40,7 +40,7 @@ services:
       - key: FRONTEND_URL
         value: https://medix-web.onrender.com
       - key: BACKEND_URL
-        value: https://medix-api.onrender.com
+        value: https://medix-api-n40s.onrender.com
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_REFRESH_SECRET
@@ -83,7 +83,7 @@ services:
       - key: VITE_API_URL
         value: ""
       - key: VITE_SOCKET_URL
-        value: https://medix-api.onrender.com
+        value: https://medix-api-n40s.onrender.com
     headers:
       - path: /*
         name: X-Content-Type-Options
@@ -97,7 +97,7 @@ services:
     routes:
       - type: rewrite
         source: /api/*
-        destination: https://medix-api.onrender.com/api/*
+        destination: https://medix-api-n40s.onrender.com/api/*
       - type: rewrite
         source: /*
         destination: /index.html

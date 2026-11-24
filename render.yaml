@@ -38,7 +38,7 @@ services:
       - key: DB_POOL_MAX
         value: "10"
       - key: FRONTEND_URL
-        value: https://medix-web.onrender.com
+        value: https://medix-web-tmxp.onrender.com
       - key: BACKEND_URL
         value: https://medix-api-n40s.onrender.com
       - key: JWT_SECRET
